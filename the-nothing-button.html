@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THE NOTHING BUTTON — Press At Your Own Risk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --hazard-yellow:#FFC400;
+    --hazard-black:#111110;
+    --alarm-red:#D7263D;
+    --paper:#EFEAE0;
+    --stamp-blue:#1C4B8C;
+    --stub-line:#9a9488;
+  }
+
+  *{box-sizing:border-box;}
+
+  @font-face{
+    font-family:'Stencil-ish';
+    src:local('Arial Black');
+  }
+
+  html,body{
+    margin:0;
+    height:100%;
+    background:var(--hazard-black);
+    font-family:'Courier New', Courier, monospace;
+    color:var(--paper);
+    overflow-x:hidden;
+  }
+
+  .stripe-bar{
+    height:14px;
+    width:100%;
+    background:repeating-linear-gradient(
+      45deg,
+      var(--hazard-yellow) 0 20px,
+      var(--hazard-black) 20px 40px
+    );
+  }
+
+  .wrap{
+    min-height:calc(100% - 28px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding:48px 20px 80px;
+    position:relative;
+  }
+
+  .eyebrow{
+    letter-spacing:0.3em;
+    font-size:12px;
+    color:var(--hazard-yellow);
+    text-transform:uppercase;
+    margin-bottom:10px;
+    border:1px solid var(--hazard-yellow);
+    padding:4px 10px;
+  }
+
+  h1{
+    font-family:Impact, 'Arial Black', sans-serif;
+    font-size:clamp(2.6rem, 8vw, 5.5rem);
+    letter-spacing:0.02em;
+    margin:6px 0 4px;
+    text-align:center;
+    color:var(--paper);
+    text-shadow: 4px 4px 0 var(--alarm-red);
+    line-height:0.95;
+  }
+
+  .sub{
+    max-width:520px;
+    text-align:center;
+    color:#c9c3b6;
+    font-size:15px;
+    line-height:1.5;
+    margin:14px 0 44px;
+  }
+
+  .sub b{ color: var(--hazard-yellow); }
+
+  /* THE BUTTON */
+  .button-rig{
+    position:relative;
+    width:260px;
+    height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .button-rig::before{
+    content:'';
+    position:absolute;
+    inset:-16px;
+    border-radius:50%;
+    background:repeating-conic-gradient(
+      var(--hazard-yellow) 0deg 10deg,
+      var(--hazard-black) 10deg 20deg
+    );
+  }
+
+  #bigButton{
+    position:relative;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    border:none;
+    background: radial-gradient(circle at 35% 30%, #ff5566, var(--alarm-red) 60%, #8f0f22 100%);
+    box-shadow:
+      0 12px 0 #6e0819,
+      0 18px 30px rgba(0,0,0,0.6);
+    color:var(--paper);
+    font-family:Impact, 'Arial Black', sans-serif;
+    font-size:1.6rem;
+    letter-spacing:0.05em;
+    cursor:pointer;
+    transition: transform 0.06s ease, box-shadow 0.06s ease;
+    z-index:2;
+  }
+
+  #bigButton:hover{ filter:brightness(1.08); }
+
+  #bigButton:active{
+    transform: translateY(10px);
+    box-shadow:
+      0 2px 0 #6e0819,
+      0 6px 14px rgba(0,0,0,0.6);
+  }
+
+  .instructions{
+    margin-top:26px;
+    font-size:12px;
+    letter-spacing:0.2em;
+    color:#8f897c;
+    text-transform:uppercase;
+  }
+
+  /* TICKET STUB REVEAL */
+  .stub{
+    margin-top:40px;
+    width:100%;
+    max-width:420px;
+    background:var(--paper);
+    color:var(--hazard-black);
+    border:2px dashed var(--stub-line);
+    padding:18px 22px;
+    display:none;
+    position:relative;
+  }
+
+  .stub.show{ display:block; animation: drop 0.35s ease; }
+
+  @keyframes drop{
+    from{ opacity:0; transform:translateY(-12px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .stub-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#6b6558;
+    margin-bottom:6px;
+  }
+
+  .stub-dest{
+    font-family:Impact, 'Arial Black', sans-serif;
+    font-size:1.4rem;
+    color:var(--hazard-black);
+    word-break:break-word;
+  }
+
+  .stub-stamp{
+    position:absolute;
+    right:14px;
+    top:14px;
+    border:3px solid var(--stamp-blue);
+    color:var(--stamp-blue);
+    border-radius:6px;
+    padding:4px 8px;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:0.1em;
+    transform:rotate(8deg);
+    opacity:0.85;
+  }
+
+  .counter{
+    margin-top:60px;
+    font-size:12px;
+    color:#6b6558;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    text-align:center;
+  }
+
+  .counter span{
+    color:var(--hazard-yellow);
+    font-size:16px;
+    font-weight:bold;
+  }
+
+  footer{
+    margin-top:26px;
+    font-size:11px;
+    color:#4c483f;
+    text-align:center;
+    max-width:460px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stripe-bar"></div>
+
+<div class="wrap">
+  <div class="eyebrow">Do Not Press</div>
+  <h1>THE NOTHING<br>BUTTON</h1>
+  <p class="sub">It does not order a pizza. It does not launch anything. It sends you to <b>one random, gloriously pointless corner of the internet</b> and washes its hands of the outcome.</p>
+
+  <div class="button-rig">
+    <button id="bigButton">PRESS</button>
+  </div>
+  <div class="instructions">One press. One destination. No refunds.</div>
+
+  <div class="stub" id="stub">
+    <div class="stub-stamp">SENT</div>
+    <div class="stub-row"><span>Ticket No.</span><span id="ticketNo">000</span></div>
+    <div class="stub-row"><span>Destination</span></div>
+    <div class="stub-dest" id="destName">—</div>
+    <div class="stub-row" style="margin-top:10px;"><span>Status</span><span>Opening in new tab…</span></div>
+  </div>
+
+  <div class="counter">People who pressed it anyway<br><span id="count">0</span></div>
+
+  <footer>Every destination below was chosen for being harmless, weird, and completely unnecessary. That's the whole point.</footer>
+</div>
+
+<script>
+  const destinations = [
+    { name: "Zombo.com", url: "https://zombo.com" },
+    { name: "Cat Bounce", url: "https://cat-bounce.com" },
+    { name: "Pointer Pointer", url: "https://pointerpointer.com" },
+    { name: "I Has A Bucket", url: "https://ihasabucket.com" },
+    { name: "Staggering Beauty", url: "https://www.staggeringbeauty.com" },
+    { name: "Eel Slap", url: "https://www.eelslap.com" },
+    { name: "OMFG Dogs", url: "https://www.omfgdogs.com" },
+    { name: "Endless Horse", url: "https://endless.horse" },
+    { name: "Try Pap", url: "https://www.trypap.com" },
+    { name: "Find The Invisible Cow", url: "https://www.findtheinvisiblecow.com" },
+    { name: "Must See Pizza", url: "https://www.mustsee.pizza" },
+    { name: "Pixels Fighting", url: "https://www.pixelsfighting.com" },
+    { name: "This Man", url: "https://www.thisman.org" },
+    { name: "The Useless Web", url: "https://theuselessweb.com" }
+  ];
+
+  let pressCount = Math.floor(Math.random() * 4000) + 12000;
+  document.getElementById('count').textContent = pressCount.toLocaleString();
+
+  const btn = document.getElementById('bigButton');
+  const stub = document.getElementById('stub');
+  const destName = document.getElementById('destName');
+  const ticketNo = document.getElementById('ticketNo');
+
+  btn.addEventListener('click', () => {
+    const pick = destinations[Math.floor(Math.random() * destinations.length)];
+
+    pressCount++;
+    document.getElementById('count').textContent = pressCount.toLocaleString();
+
+    destName.textContent = pick.name;
+    ticketNo.textContent = String(pressCount).slice(-3).padStart(3, '0');
+    stub.classList.add('show');
+
+    window.open(pick.url, '_blank', 'noopener');
+  });
+</script>
+
+</body>
+</html>

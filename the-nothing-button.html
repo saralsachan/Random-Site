@@ -272,18 +272,25 @@
   const destName = document.getElementById('destName');
   const ticketNo = document.getElementById('ticketNo');
 
-  btn.addEventListener('click', () => {
-    const pick = destinations[Math.floor(Math.random() * destinations.length)];
+ btn.addEventListener('click', () => {
+  const pick = destinations[Math.floor(Math.random() * destinations.length)];
 
-    pressCount++;
-    document.getElementById('count').textContent = pressCount.toLocaleString();
+  // Track the click in GA
+  if (typeof gtag === 'function') {
+    gtag('event', 'button_press', {
+      destination: pick.name
+    });
+  }
 
-    destName.textContent = pick.name;
-    ticketNo.textContent = String(pressCount).slice(-3).padStart(3, '0');
-    stub.classList.add('show');
+  pressCount++;
+  document.getElementById('count').textContent = pressCount.toLocaleString();
 
-    window.open(pick.url, '_blank', 'noopener');
-  });  
+  destName.textContent = pick.name;
+  ticketNo.textContent = String(pressCount).slice(-3).padStart(3, '0');
+  stub.classList.add('show');
+
+  window.open(pick.url, '_blank', 'noopener');
+});
 </script>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8RBCSMTMS"></script>

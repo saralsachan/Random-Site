@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <title>THE NOTHING BUTTON — Press At Your Own Risk</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8RBCSMTMS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-F8RBCSMTMS');
+</script>
+
 <style>
   :root{
     --hazard-yellow:#FFC400;
@@ -272,33 +282,25 @@
   const destName = document.getElementById('destName');
   const ticketNo = document.getElementById('ticketNo');
 
- btn.addEventListener('click', () => {
-  const pick = destinations[Math.floor(Math.random() * destinations.length)];
+  btn.addEventListener('click', () => {
+    const pick = destinations[Math.floor(Math.random() * destinations.length)];
 
-  // Track the click in GA
-  if (typeof gtag === 'function') {
-    gtag('event', 'button_press', {
-      destination: pick.name
-    });
-  }
+    // Track the click as a GA4 event
+    if (typeof gtag === 'function') {
+      gtag('event', 'button_press', {
+        destination: pick.name
+      });
+    }
 
-  pressCount++;
-  document.getElementById('count').textContent = pressCount.toLocaleString();
+    pressCount++;
+    document.getElementById('count').textContent = pressCount.toLocaleString();
 
-  destName.textContent = pick.name;
-  ticketNo.textContent = String(pressCount).slice(-3).padStart(3, '0');
-  stub.classList.add('show');
+    destName.textContent = pick.name;
+    ticketNo.textContent = String(pressCount).slice(-3).padStart(3, '0');
+    stub.classList.add('show');
 
-  window.open(pick.url, '_blank', 'noopener');
-});
-</script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-F8RBCSMTMS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-F8RBCSMTMS');
+    window.open(pick.url, '_blank', 'noopener');
+  });
 </script>
 
 </body>
